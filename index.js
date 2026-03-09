@@ -13,11 +13,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/pair", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pair.html"));
+    res.sendFile(path.join(__dirname, "public", "pair.html"), { dotfiles: "allow" }, (err) => {
+        if (err) res.status(500).send("Error serving page: " + err.message);
+    });
 });
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
+    res.sendFile(path.join(__dirname, "public", "index.html"), { dotfiles: "allow" }, (err) => {
+        if (err) res.status(500).send("Error serving page: " + err.message);
+    });
 });
 
 app.use("/qr", qrRoute);
