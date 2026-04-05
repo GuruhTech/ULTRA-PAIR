@@ -1,14 +1,21 @@
 {
-  "name": "atassa-session",
+  "name": "ultra-guru-session",
+  "version": "1.0.0",
+  "description": "ULTRA GURU - Premium WhatsApp Multi-Device Session Generator",
   "main": "./index.js",
   "type": "commonjs",
   "scripts": {
-    "start": "pm2 start index.js --deep-monitoring --attach --name giftedsess",
-    "stop": "pm2 stop giftedsess",
-    "restart": "pm2 restart giftedsess"
+    "start": "pm2 start index.js --deep-monitoring --attach --name ultra-guru",
+    "stop": "pm2 stop ultra-guru",
+    "restart": "pm2 restart ultra-guru",
+    "logs": "pm2 logs ultra-guru"
   },
-  "author": "Gifted Tech",
+  "author": "GuruTech Lab",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GuruhTech/ULTRA-GURU"
+  },
   "dependencies": {
     "@whiskeysockets/baileys": "npm:baileys@^6.7.21",
     "body-parser": "^2.2.2",
