@@ -5,7 +5,6 @@ const config = require("./config");
 const { PORT } = config;
 const { qrRoute, pairRoute } = require("./routes");
 const { init, isConfigured, getSession } = require("./gift/sessionStore");
-
 const app = express();
 app.set("json spaces", 2);
 
@@ -15,18 +14,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
-// ========================
-//       ROUTES
-// ========================
-
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"), { dotfiles: "allow" }, (err) => {
+app.get("/pair", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "pair.html"), { dotfiles: "allow" }, (err) => {
         if (err) res.status(500).send("Error serving page: " + err.message);
     });
 });
 
-app.get("/pair", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "pair.html"), { dotfiles: "allow" }, (err) => {
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"), { dotfiles: "allow" }, (err) => {
         if (err) res.status(500).send("Error serving page: " + err.message);
     });
 });
@@ -36,11 +31,9 @@ app.get("/qr", (req, res) => {
         if (err) res.status(500).send("Error serving page: " + err.message);
     });
 });
-
 app.use("/qr", qrRoute);
 app.use("/code", pairRoute);
 
-// Session retrieval endpoint
 app.get("/session/:id", async (req, res) => {
     if (!isConfigured()) {
         return res.status(503).send("No database configured on this server.");
@@ -57,30 +50,20 @@ app.get("/session/:id", async (req, res) => {
     }
 });
 
-// Health check
 app.get("/health", (req, res) => {
     res.json({
         status: 200,
         success: true,
-        service: "ULTRA GURU Session Server",
+        service: "Gifted Session",
         storage: isConfigured() ? "database" : "inline-zlib",
         timestamp: new Date().toISOString(),
     });
 });
 
-// Start Server
 app.listen(PORT, () => {
-    console.log(`
-╔══════════════════════════════════════════════════════════════╗
-║                                                              ║
-║              🚀 ULTRA GURU SESSION SERVER                   ║
-║                                                              ║
-║     Running on: http://localhost:${PORT}                    ║
-║     Powered by GuruTech Lab                                  ║
-║                                                              ║
-╚══════════════════════════════════════════════════════════════╝
-    `);
-    
+    console.log(
+        `\nDeployment Successful!\n\n ULTRA-Session-Server Running on http://localhost:${PORT}`,
+    );
     init(config);
 });
 
